@@ -89,6 +89,8 @@ static const char *music[] = { "st", "-e", "ncmpcpp", NULL};
 static const char *mpctoggle[] = { "mpcc", "toggle", NULL};
 static const char *mpcnext[] = { "mpcc", "next", NULL};
 static const char *mpcprev[] = { "mpcc", "prev", NULL};
+static const char *seekf[] = { "mpc", "seek", "+5", NULL};
+static const char *seekb[] = { "mpc", "seek", "-5", NULL};
 static const char *vup[] = { "/usr/local/bin/volume_up", NULL};
 static const char *vdown[] = { "/usr/local/bin/volume_down", NULL};
 static const char *mute[] = { "/usr/local/bin/mute", NULL};
@@ -165,14 +167,17 @@ static Key keys[] = {
 	{ MODKEY,             XF86XK_AudioPrev,		spawn,          {.v = mpcprev } },
 	{ MODKEY,             XF86XK_AudioNext,    spawn,          {.v = mpcnext } },
 
-	{ MODKEY,             XK_F4,      spawn,          {.v = bdown} },
-	{ MODKEY,             XK_F5,      spawn,          {.v = bup} },
+	{ MODKEY,             XK_F3,      spawn,          {.v = bdown} },
+	{ MODKEY,             XK_F4,      spawn,          {.v = bup} },
 
-	{ ControlMask,             XK_F8,			 spawn,          {.v = mpcprev } },
-	{ ControlMask,             XK_F9,			 spawn,          {.v = mpctoggle } },
-	{ ControlMask,             XK_F10,     spawn,          {.v = mpcnext } },
-	{ ControlMask,             XK_F11,     spawn,          {.v = vdown} },
-	{ ControlMask,             XK_F12,     spawn,          {.v = vup} },
+	{ ShiftMask+MODKEY,             XK_F10,     spawn,          {.v = seekf } },
+	{ ShiftMask+MODKEY,             XK_F8,			 spawn,         {.v = seekb } },
+
+	{ MODKEY,             XK_F8,			 spawn,          {.v = mpcprev } },
+	{ MODKEY,             XK_F9,			 spawn,          {.v = mpctoggle } },
+	{ MODKEY,             XK_F10,     spawn,          {.v = mpcnext } },
+	{ MODKEY,             XK_F11,     spawn,          {.v = vdown} },
+	{ MODKEY,             XK_F12,     spawn,          {.v = vup} },
 	{ 0,          XF86XK_AudioMute,		spawn, {.v = mute } },
 	{ 0,						 XK_Print,		spawn, {.v = screenshot } },
 	{ ControlMask,	 XK_Print,		spawn, {.v = partial_screenshot } },
@@ -191,6 +196,8 @@ static Button buttons[] = {
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
+	/* { ClkClientWin,					MODKEY|ShiftMask, Button1,			movemouse,   {.i = 1} }, */
+	/* { ClkClientWin,					MODKEY|ShiftMask, Button3,			resizemouse, {.i = 1} }, */
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
