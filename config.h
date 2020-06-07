@@ -1,5 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 
+/* This for refering to media keys / fn keys */
+#include <X11/XF86keysym.h>
+
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -36,6 +39,7 @@ static const Rule rules[] = {
 	{ "firefox",	NULL,       NULL,       1 << 8,       0,           0,           -1 },
 	{ "ViberPC",	NULL,       NULL,       1 << 7,       0,           0,           -1 },
 	{ "Telegram",	NULL,       NULL,	1 << 7,       0,           0,           -1 },
+	{ "Emacs",	NULL,       NULL,	1 << 2,       0,           0,           -1 },
 	{ "Pavucontrol",NULL,	NULL,       0,	1,           1,           -1 },
 	{ "Zathura",	NULL,	NULL,       1 << 1,0,           0,           -1 },
 };
@@ -55,6 +59,9 @@ static const Layout layouts[] = {
 
 /* key definitions */
 #define MODKEY Mod4Mask
+#define ALTKEY Mod1Mask
+#define CAKEYS(KEY,CMD) \
+	{ ALTKEY|ControlMask,           KEY,      spawn,           {.v = CMD } },
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -66,12 +73,31 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "rofi", "-show", "drun" };
-static const char *emacscmd[] = { "emacs" };
-static const char *screenshot[] = { "rofi", "-show", "drun" };
-static const char *firefox[] = { "firefox" };
-static const char *dmenucmd[] = { "rofi", "-show", "drun" };
-static const char *termcmd[]  = { "st", NULL };
+static const char *dmenucmd[] = { "rofi", "-show", "drun", NULL };
+static const char *emacs[] = { "emacs" , NULL};
+static const char *mutt[] = { "st", "-e", "neomutt", NULL};
+/* music */
+static const char *music[] = { "st", "-e", "ncmpcpp", NULL};
+static const char *mpctoggle[] = { "mpcc", "toggle", NULL};
+static const char *mpcnext[] = { "mpcc", "next", NULL};
+static const char *mpcprev[] = { "mpcc", "prev", NULL};
+static const char *vup[] = { "/usr/local/bin/volume_up", NULL};
+static const char *vdown[] = { "/usr/local/bin/volume_down", NULL};
+static const char *mute[] = { "/usr/local/bin/mute", NULL};
+/* brightness */
+static const char *bup[] = { "light", "-A", "1", NULL};
+static const char *bdown[] = {  "light", "-U", "1", NULL};
+/* screenshots */
+static const char *screenshot[] = { "/usr/local/bin/screenshot", NULL };
+static const char *partial_screenshot[] = { "/usr/local/bin/screenshot", "partial", NULL };
+/* utils  */
+static const char *jupyter[] = { "/usr/local/bin/jupyterlauncher", NULL };
+static const char *omnidoer[] = { "/usr/local/bin/omnidoer", NULL };
+static const char *omnilauncher[] = { "/usr/local/bin/omnilauncher", NULL };
+
+static const char *slock[] = { "slock", NULL };
+static const char *firefox[] = { "firefox", NULL };
+static const char *termcmd[]  = { "st", NULL, NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -111,7 +137,40 @@ static Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 
-     # My shortcuts below 
+     /* My shortcuts below  */
+	CAKEYS(				XK_g,                      firefox)
+	CAKEYS(				XK_l,                      slock)
+	CAKEYS(				XK_e,                      emacs)
+	CAKEYS(				XK_m,                      mutt)
+	CAKEYS(				XK_k,                      music)
+	CAKEYS(				XK_j,                      jupyter)
+	CAKEYS(				XK_o,                      omnilauncher)
+
+	{ MODKEY,        XK_o,			 spawn,					{.v = omnidoer } },
+
+/* Here's a link to the keys defined in X11
+ https://cgit.freedesktop.org/xorg/proto/x11proto/tree/XF86keysym.h */
+
+	{ MODKEY,             XF86XK_RockerDown,    spawn,          {.v = vdown} },
+	{ MODKEY,             XF86XK_RockerUp,    spawn,          {.v = vup} },
+	{ MODKEY,             XF86XK_AudioPlay,		spawn,          {.v = mpctoggle } },
+	{ MODKEY,             XF86XK_AudioPrev,		spawn,          {.v = mpcprev } },
+	{ MODKEY,             XF86XK_AudioNext,    spawn,          {.v = mpcnext } },
+
+	{ MODKEY,             XK_F4,      spawn,          {.v = bdown} },
+	{ MODKEY,             XK_F5,      spawn,          {.v = bup} },
+
+	{ ControlMask,             XK_F8,			 spawn,          {.v = mpcprev } },
+	{ ControlMask,             XK_F9,			 spawn,          {.v = mpctoggle } },
+	{ ControlMask,             XK_F10,     spawn,          {.v = mpcnext } },
+	{ ControlMask,             XK_F11,     spawn,          {.v = vdown} },
+	{ ControlMask,             XK_F12,     spawn,          {.v = vup} },
+	{ 0,          XF86XK_AudioMute,		spawn, {.v = mute } },
+	{ 0,						 XK_Print,		spawn, {.v = screenshot } },
+	{ ControlMask,	 XK_Print,		spawn, {.v = partial_screenshot } },
+
+	{ 0,						 XF86XK_Mail,		spawn, {.v =  mutt} },
+	{ 0,						 XF86XK_Start,		spawn, {.v = dmenucmd} },
 };
 
 /* button definitions */
