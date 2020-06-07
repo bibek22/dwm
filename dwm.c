@@ -673,7 +673,7 @@ void
 configurenotify(XEvent *e)
 {
 	Monitor *m;
-	Clent *c;
+	Client *c;
 	XConfigureEvent *ev = &e->xconfigure;
 	int dirty;
 
