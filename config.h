@@ -13,7 +13,9 @@ static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 /* static const char *fonts[]          = { "Overpass Nerd Font:size=14" }; */
-static const char *fonts[]          = { "OpenDyslexic Nerd Font Mono:size=12" };
+/* static const char *fonts[]          = { "OpenDyslexic Nerd Font Mono:size=12" }; */
+static const char *fonts[]          = { "ShureTechMono Nerd Font:size=14" };
+
 static const char dmenufont[]       = "Ubuntu:size=12";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -23,6 +25,7 @@ static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
 static const char col_purple[]      = "#7c6180";
+static const char col_purplebright[]      = "#d629da";
 static const char col_bluishpurple[] = "#956fd6";
 static const char col_purple_dark[] = "#493f4a";
 static const char col_green_dark[]  = "#005577";
@@ -30,7 +33,7 @@ static const char col_green[]       = "#005577";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray5, col_purple, col_gray2 },
-	[SchemeSel]  = { col_gray6, col_purple_dark,  col_purple  },
+	[SchemeSel]  = { col_gray6, col_purple_dark,  col_purplebright },
 };
 
 /* tagging */
@@ -86,13 +89,15 @@ static const char *dmenucmd[] = { "rofi", "-show", "drun", NULL };
 static const char *emacs[] = { "emacs" , NULL};
 static const char *mutt[] = { "st", "-e", "neomutt", NULL};
 /* music */
-static const char *music[] = { "st", "-e", "ncmpcpp", NULL};
-static const char *mpctoggle[] = { "mpcc", "toggle", NULL};
-static const char *mpcnext[] = { "mpcc", "next", NULL};
-static const char *mpcprev[] = { "mpcc", "prev", NULL};
-static const char *vup[] = { "/usr/local/bin/volume_up", NULL};
-static const char *vdown[] = { "/usr/local/bin/volume_down", NULL};
-static const char *mute[] = { "/usr/local/bin/mute", NULL};
+static const char *music[]			= { "st", "-e", "ncmpcpp", NULL};
+static const char *mpctoggle[]	= { "mpcc", "toggle", NULL};
+static const char *mpcnext[]		= { "mpcc", "next", NULL};
+static const char *mpcprev[]		= { "mpcc", "prev", NULL};
+static const char *seekf[]			= { "mpc", "seek", "+5", NULL};
+static const char *seekb[]			= { "mpc", "seek", "-5", NULL};
+static const char *vup[]				= { "/usr/local/bin/volume_up", NULL};
+static const char *vdown[]			= { "/usr/local/bin/volume_down", NULL};
+static const char *mute[]				= { "/usr/local/bin/mute", NULL};
 /* brightness */
 static const char *bup[] = { "light", "-A", "1", NULL};
 static const char *bdown[] = {  "light", "-U", "1", NULL};
@@ -160,14 +165,32 @@ static Key keys[] = {
 /* Here's a link to the keys defined in X11
  https://cgit.freedesktop.org/xorg/proto/x11proto/tree/XF86keysym.h */
 
+	{ 0,             XF86XK_AudioPrev,			 spawn,          {.v = mpcprev } },
+	{ 0,             XF86XK_AudioPlay,			 spawn,          {.v = mpctoggle } },
+	{ 0,             XF86XK_AudioNext,     spawn,          {.v = mpcnext } },
+	{ 0,             XF86XK_AudioLowerVolume,     spawn,          {.v = vdown} },
+	{ 0,             XF86XK_AudioRaiseVolume,     spawn,          {.v = vup} },
+
 	{ MODKEY,             XK_F8,			 spawn,          {.v = mpcprev } },
 	{ MODKEY,             XK_F9,			 spawn,          {.v = mpctoggle } },
 	{ MODKEY,             XK_F10,     spawn,          {.v = mpcnext } },
 	{ MODKEY,             XK_F11,     spawn,          {.v = vdown} },
 	{ MODKEY,             XK_F12,     spawn,          {.v = vup} },
 
-	{ MODKEY,             XK_F4,      spawn,          {.v = bdown} },
-	{ MODKEY,             XK_F5,      spawn,          {.v = bup} },
+	{ 0,									XF86XK_MonBrightnessDown,      spawn,          {.v = bdown} },
+	{ 0,									XF86XK_MonBrightnessUp,      spawn,          {.v = bup} },
+	{ MODKEY,             XK_F3,      spawn,          {.v = bdown} },
+	{ MODKEY,             XK_F4,      spawn,          {.v = bup} },
+
+
+	{ ShiftMask+MODKEY,             XK_F10,     spawn,          {.v = seekf } },
+	{ ShiftMask+MODKEY,             XK_F8,			 spawn,         {.v = seekb } },
+	{ ShiftMask+MODKEY,             XK_F10,     spawn,          {.v = seekf } },
+	{ ShiftMask+MODKEY,             XK_F8,			 spawn,         {.v = seekb } },
+
+
+	{ ShiftMask,								XK_F10,				spawn,          {.v = seekf } },
+	{ ShiftMask,								XK_F8,				spawn,         {.v = seekb } },
 
 	{ ControlMask,             XK_F8,			 spawn,          {.v = mpcprev } },
 	{ ControlMask,             XK_F9,			 spawn,          {.v = mpctoggle } },
