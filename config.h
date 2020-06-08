@@ -47,7 +47,7 @@ static const Rule rules[] = {
 	 */
 	/* class				instance    title       tags mask     iscentered  isfloating   monitor */
 	{ "Gimp",				NULL,				NULL,				0,						0,					1,					-1 },
-	{ "Neomutt",		NULL,				NULL,				1<<2,					0,					1,					-1 },
+	{		NULL,				NULL,				"neomutt",	1<<2,					0,					0,					-1 },
 	{ "firefox",		NULL,				NULL,				1 << 8,				0,					0,					-1 },
 	{ "ViberPC",		NULL,				NULL,				1 << 7,				0,					0,					-1 },
 	{ "Telegram",		NULL,				NULL,				1 << 7,				0,					0,					-1 },
