@@ -12,12 +12,13 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Overpass Nerd Font:size=12" };
+/* static const char *fonts[]          = { "Overpass Nerd Font:size=14" }; */
+static const char *fonts[]          = { "OpenDyslexic Nerd Font Mono:size=12" };
 static const char dmenufont[]       = "Ubuntu:size=12";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
-static const char col_gray5[]       = "#cccccc";
-static const char col_gray6[]       = "#dddddd";
+static const char col_gray5[]       = "#dadada";
+static const char col_gray6[]       = "#dfdfdf";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
@@ -159,11 +160,11 @@ static Key keys[] = {
 /* Here's a link to the keys defined in X11
  https://cgit.freedesktop.org/xorg/proto/x11proto/tree/XF86keysym.h */
 
-	{ MODKEY,             XF86XK_RockerDown,    spawn,          {.v = vdown} },
-	{ MODKEY,             XF86XK_RockerUp,    spawn,          {.v = vup} },
-	{ MODKEY,             XF86XK_AudioPlay,		spawn,          {.v = mpctoggle } },
-	{ MODKEY,             XF86XK_AudioPrev,		spawn,          {.v = mpcprev } },
-	{ MODKEY,             XF86XK_AudioNext,    spawn,          {.v = mpcnext } },
+	{ MODKEY,             XK_F8,			 spawn,          {.v = mpcprev } },
+	{ MODKEY,             XK_F9,			 spawn,          {.v = mpctoggle } },
+	{ MODKEY,             XK_F10,     spawn,          {.v = mpcnext } },
+	{ MODKEY,             XK_F11,     spawn,          {.v = vdown} },
+	{ MODKEY,             XK_F12,     spawn,          {.v = vup} },
 
 	{ MODKEY,             XK_F4,      spawn,          {.v = bdown} },
 	{ MODKEY,             XK_F5,      spawn,          {.v = bup} },
