@@ -16,7 +16,7 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 /* static const char *fonts[]          = { "OpenDyslexic Nerd Font Mono:size=12" }; */
 static const char *fonts[]          = { "ShureTechMono Nerd Font:size=14" };
 
-static const char dmenufont[]       = "Ubuntu:size=12";
+/* static const char dmenufont[]       = "Ubuntu:size=12"; */
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray5[]       = "#dadada";
@@ -48,11 +48,15 @@ static const Rule rules[] = {
 	/* class				instance    title       tags mask     iscentered  isfloating   monitor */
 	{ "Gimp",				NULL,				NULL,				0,						0,					1,					-1 },
 	{		NULL,				NULL,				"neomutt",	1<<2,					0,					0,					-1 },
+	{	"ncmpcpp",		NULL,				NULL,				0,						1,					1,					-1 },
 	{ "firefox",		NULL,				NULL,				1 << 8,				0,					0,					-1 },
 	{ "ViberPC",		NULL,				NULL,				1 << 7,				0,					0,					-1 },
+	{ "discord",		NULL,				NULL,				1 << 7,				0,					0,					-1 },
+	{ "slack",		NULL,				NULL,				1 << 7,				0,					0,					-1 },
+	{ "zoom",				NULL,				NULL,				1 << 4,				0,					0,					-1 },
 	{ "Telegram",		NULL,				NULL,				1 << 7,				0,					0,					-1 },
 	{ "Emacs",			NULL,				NULL,				1 << 2,				0,					0,					-1 },
-	{ "Pavucontrol",NULL,				NULL,				0,						1,					1,					-1 },
+	{ "Pavucontrol",NULL,				NULL,				1<<5,					1,					1,					-1 },
 	{ "Zathura",		NULL,				NULL,				1 << 1,				0,					0,					-1 },
 };
 
@@ -74,6 +78,9 @@ static const Layout layouts[] = {
 #define ALTKEY Mod1Mask
 #define CAKEYS(KEY,CMD) \
 	{ ALTKEY|ControlMask,           KEY,      spawn,           {.v = CMD } },
+#define CAFOCUS(KEY,CMD,TAG) \
+	{ ALTKEY|ControlMask,           KEY,      spawn,           {.v = CMD } }, \
+	{ ControlMask|ALTKEY,						KEY,      view,           {.ui = 1 << TAG} },
 #define TAGKEYS(KEY,TAG) \
 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -87,22 +94,26 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "rofi", "-show", "drun", NULL };
 static const char *emacs[] = { "emacs" , NULL};
-static const char *mutt[] = { "st", "-e", "neomutt", NULL};
+static const char *mutt[] = { "/usr/local/bin/runonce", "neomutt", "neomutt", NULL};
 /* music */
-static const char *music[]			= { "st", "-e", "ncmpcpp", NULL};
+static const char *music[]			= { "st", "-c", "ncmpcpp", "-e", "ncmpcpp", NULL};
 static const char *mpctoggle[]	= { "mpcc", "toggle", NULL};
 static const char *mpcnext[]		= { "mpcc", "next", NULL};
+static const char *mpccvup[]		= { "mpcc", "vup", NULL};
+static const char *mpccvdown[]		= { "mpcc", "vdown", NULL};
 static const char *mpcprev[]		= { "mpcc", "prev", NULL};
 static const char *seekf[]			= { "mpc", "seek", "+5", NULL};
 static const char *seekb[]			= { "mpc", "seek", "-5", NULL};
 static const char *vup[]				= { "/usr/local/bin/volume_up", NULL};
 static const char *vdown[]			= { "/usr/local/bin/volume_down", NULL};
 static const char *mute[]				= { "/usr/local/bin/mute", NULL};
+static const char *mutemic[]				= { "/usr/local/bin/mute", "mic", NULL};
+static const char *pavucontrol[] = { "/usr/local/bin/runonce", "pavucontrol", NULL};
 /* brightness */
 static const char *bup[] = { "light", "-A", "1", NULL};
 static const char *bdown[] = {  "light", "-U", "1", NULL};
 /* screenshots */
-static const char *screenshot[] = { "/usr/local/bin/screenshot", NULL };
+static const char *screenshot[] = { "/usr/local/bin/screenshot", "something", NULL };
 static const char *partial_screenshot[] = { "/usr/local/bin/screenshot", "partial", NULL };
 /* utils  */
 static const char *jupyter[] = { "/usr/local/bin/jupyterlauncher", NULL };
@@ -152,13 +163,18 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 
      /* My shortcuts below  */
+	{ MODKEY,     XK_semicolon,				spawn,         {.v = termcmd } },
 	CAKEYS(				XK_g,                      firefox)
 	CAKEYS(				XK_l,                      slock)
 	CAKEYS(				XK_e,                      emacs)
-	CAKEYS(				XK_m,                      mutt)
 	CAKEYS(				XK_k,                      music)
 	CAKEYS(				XK_j,                      jupyter)
 	CAKEYS(				XK_o,                      omnilauncher)
+
+	/* Run a command and get focus to a window */
+					/*		KEY													CMD								TAG */
+	CAFOCUS(				XK_m,                      mutt,								2)
+	CAFOCUS(				XK_p,                      pavucontrol,					5)
 
 	{ MODKEY,        XK_o,			 spawn,					{.v = omnidoer } },
 
@@ -185,8 +201,8 @@ static Key keys[] = {
 
 	{ ShiftMask+MODKEY,             XK_F10,     spawn,          {.v = seekf } },
 	{ ShiftMask+MODKEY,             XK_F8,			 spawn,         {.v = seekb } },
-	{ ShiftMask+MODKEY,             XK_F10,     spawn,          {.v = seekf } },
-	{ ShiftMask+MODKEY,             XK_F8,			 spawn,         {.v = seekb } },
+	{ ShiftMask+MODKEY,             XK_F11,     spawn,          {.v = mpccvdown } },
+	{ ShiftMask+MODKEY,             XK_F12,			 spawn,         {.v = mpccvup } },
 
 
 	{ ShiftMask,								XK_F10,				spawn,          {.v = seekf } },
@@ -197,7 +213,9 @@ static Key keys[] = {
 	{ ControlMask,             XK_F10,     spawn,          {.v = mpcnext } },
 	{ ControlMask,             XK_F11,     spawn,          {.v = vdown} },
 	{ ControlMask,             XK_F12,     spawn,          {.v = vup} },
-	{ 0,          XF86XK_AudioMute,		spawn, {.v = mute } },
+	{ 0,											XF86XK_AudioMute,		spawn, {.v = mute } },
+	{ MODKEY,									XK_F7,				spawn, {.v = mutemic } },
+	/* { 0,									XF86XK_AudioMute,				spawn, {.v = mutemic } }, */
 	{ 0,						 XK_Print,		spawn, {.v = screenshot } },
 	{ ControlMask,	 XK_Print,		spawn, {.v = partial_screenshot } },
 
