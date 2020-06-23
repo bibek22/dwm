@@ -246,6 +246,7 @@ static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void tile(Monitor *);
 static void togglealttag();
+static void pertagbar(void);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void togglefullscr(const Arg *arg);
@@ -316,6 +317,7 @@ static Window root, wmcheckwin;
 #include "config.h"
 
 struct Pertag {
+	int showbars[LENGTH(tags) + 1]; /* tag wise show and hide bar */
 	unsigned int curtag, prevtag; /* current and previous tag */
 	int nmasters[LENGTH(tags) + 1]; /* number of windows in master area */
 	float mfacts[LENGTH(tags) + 1]; /* mfacts per tag */
@@ -769,6 +771,9 @@ createmon(void)
 		die("fatal: could not malloc() %u bytes\n", sizeof(Pertag));
 	m->pertag->curtag = m->pertag->prevtag = 1;
 	for (i=0; i <= LENGTH(tags); i++) {
+		/* init showbar */
+		m->pertag->showbars[i] = m->showbar;
+
 		/* init nmaster */
 		m->pertag->nmasters[i] = m->nmaster;
 
@@ -1947,16 +1952,37 @@ togglealttag()
 }
 
 void
-togglebar(const Arg *arg)
+pertagbar(void)
 {
-	selmon->showbar = !selmon->showbar;
 	updatebarpos(selmon);
 	resizebarwin(selmon);
 	if (showsystray) {
 		XWindowChanges wc;
-		if (!selmon->showbar)
+		if (!selmon->pertag->showbars[selmon->pertag->curtag])
 			wc.y = -bh;
-		else if (selmon->showbar) {
+		else if (selmon->pertag->showbars[selmon->pertag->curtag]) {
+			wc.y = 0;
+			if (!selmon->topbar)
+				wc.y = selmon->mh - bh;
+		}
+		XConfigureWindow(dpy, systray->win, CWY, &wc);
+	}
+	arrange(selmon);
+}
+
+
+void
+togglebar(const Arg *arg)
+{
+	selmon->pertag->showbars[selmon->pertag->curtag] = !selmon->pertag->showbars[selmon->pertag->curtag];
+	selmon->showbar = selmon->pertag->showbars[selmon->pertag->curtag];	
+	updatebarpos(selmon);
+	resizebarwin(selmon);
+	if (showsystray) {
+		XWindowChanges wc;
+		if (!selmon->pertag->showbars[selmon->pertag->curtag])
+			wc.y = -bh;
+		else if (selmon->pertag->showbars[selmon->pertag->curtag]) {
 			wc.y = 0;
 			if (!selmon->topbar)
 				wc.y = selmon->mh - bh;
@@ -2020,6 +2046,7 @@ toggleview(const Arg *arg)
 		selmon->tagset[selmon->seltags] = newtagset;
 
 		/* apply settings for this view */
+		selmon->showbar = selmon->pertag->showbars[selmon->pertag->curtag];
 		selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag];
 		selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag];
 		selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag];
@@ -2121,7 +2148,7 @@ updatebarpos(Monitor *m)
 {
 	m->wy = m->my;
 	m->wh = m->mh;
-	if (m->showbar) {
+	if (m->pertag->showbars[m->pertag->curtag]) {
 		m->wh -= bh;
 		m->by = m->topbar ? m->wy : m->wy + m->wh;
 		m->wy = m->topbar ? m->wy + bh : m->wy;
@@ -2471,12 +2498,14 @@ view(const Arg *arg)
 		selmon->pertag->prevtag = selmon->pertag->curtag;
 		selmon->pertag->curtag = tmptag;
 	}
+	selmon->showbar = selmon->pertag->showbars[selmon->pertag->curtag];
 	selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag];
 	selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag];
 	selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag];
 	selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt];
 	selmon->lt[selmon->sellt^1] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt^1];
 	focus(NULL);
+	pertagbar();
 	arrange(selmon);
 }
 
