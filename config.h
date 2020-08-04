@@ -78,6 +78,8 @@ static const Layout layouts[] = {
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
+	{ "TTT",      bstack },
+	{ "===",      bstackhoriz },
 };
 /* key definitions */
 #define MODKEY Mod4Mask
@@ -149,6 +151,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
 	/* { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} }, */
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY|ShiftMask,                       XK_t,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,						XK_f,      togglefullscr,  {0} },
@@ -156,8 +159,8 @@ static Key keys[] = {
 	/* { MODKEY,                       XK_0,      view,           {.ui = ~0 } }, */
 	{ MODKEY,						XK_Escape,      tag,            {.ui = ~0 } },
 
-	{ MODKEY,                       XK_comma,		view,       {.i = -1 } },
-	{ MODKEY,                       XK_period,		view,       {.i = +1 } },
+	/* { MODKEY,                       XK_comma,		view,       {.i = -1 } }, */
+	/* { MODKEY,                       XK_period,		view,       {.i = +1 } }, */
 
 	/* Dual monitor thing.  */
 	/* { MODKEY|ShiftMask,             XK_comma,		tagmon,         {.i = -1 } }, */
@@ -186,7 +189,7 @@ static Key keys[] = {
 
 	{ MODKEY,                       XK_f,      spawn,      {.v = searchwindow} },
 
-	{ MODKEY,     XK_quotedbl,		spawn,         SHCMD("/home/bibek/.local/bin/pick-emoji") },
+	{ MODKEY,     XK_apostrophe,		spawn,         SHCMD("/home/bibek/.local/bin/pick-emoji") },
 
 	{ MODKEY,     XK_semicolon,				spawn,         {.v = termcmd } },
 	CAKEYS(				XK_g,                      firefox)
