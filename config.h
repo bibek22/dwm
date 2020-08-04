@@ -132,11 +132,15 @@ static const char *slock[]			= { "slock", NULL };
 static const char *firefox[]		= { "firefox", NULL };
 static const char *termcmd[]		= { "st", NULL, NULL };
 
+static const char scratchpadname[] = "scratchpad";
+static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
+
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_p,      spawn, SHCMD("/usr/local/bin/omnidoer Killall") },
 	/* { MODKEY|ShiftMask,            XK_Return, spawn,          {.v = termcmd } }, */
+	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	/* { MODKEY,                  XK_minus,  removesystrayicon,   {.i = +1} }, */
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
