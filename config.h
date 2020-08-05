@@ -3,11 +3,6 @@
 /* This for refering to media keys / fn keys */
 #include <X11/XF86keysym.h>
 
-/* shift view taken from luke smith's build */
-/* #include "shiftview.c" */
-#include "vanitygaps.c"
-
-
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
@@ -78,6 +73,8 @@ static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] 
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 static const int attachbelow = 1;    /* 1 means attach after the currently active window */
+
+#include "vanitygaps.c"
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -289,14 +286,8 @@ static Key keys[] = {
 	/* vanity gaps */
 	{ MODKEY|ALTKEY,              XK_h,      incrgaps,       {.i = +2 } },
 	{ MODKEY|ALTKEY,              XK_l,      incrgaps,       {.i = -2 } },
-	{ MODKEY|ALTKEY|ControlMask,  XK_h,      incrigaps,      {.i = +2 } },
-	{ MODKEY|ALTKEY|ControlMask,  XK_l,      incrigaps,      {.i = -2 } },
 	{ MODKEY|ALTKEY,              XK_0,      togglegaps,     {0} },
 	{ MODKEY|ALTKEY|ShiftMask,    XK_0,      defaultgaps,    {0} },
-	{ MODKEY|ALTKEY,              XK_y,      incrohgaps,     {.i = +1 } },
-	{ MODKEY|ALTKEY,              XK_o,      incrohgaps,     {.i = -1 } },
-	{ MODKEY|ShiftMask,             XK_y,      incrovgaps,     {.i = +1 } },
-	{ MODKEY|ShiftMask,             XK_o,      incrovgaps,     {.i = -1 } },
 };
 
 /* button definitions */
