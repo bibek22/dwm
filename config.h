@@ -6,6 +6,7 @@
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
+static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static const unsigned int gappih    = 10;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
 static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
@@ -50,22 +51,22 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class				instance    title       tags mask     iscentered  isfloating   monitor */
-	{ "Gimp",				NULL,				NULL,				0,						0,					1,					-1 },
-	{		NULL,				NULL,				"neomutt",	1<<2,					0,					0,					-1 },
-	{	"ncmpcpp",		NULL,				NULL,				0,						1,					1,					-1 },
-	{ "firefox",		NULL,				NULL,				1 << 8,				0,					0,					-1 },
-	{ "ViberPC",		NULL,				NULL,				1 << 7,				0,					0,					-1 },
-	{ "Notion",		NULL,				NULL,				1 << 3,				0,					0,					-1 },
-	{ "discord",		NULL,				NULL,				1 << 7,				0,					0,					-1 },
-	{ "slack",		NULL,				NULL,				1 << 7,				0,					0,					-1 },
-	{ "zoom",				NULL,				NULL,				1 << 4,				0,					0,					-1 },
-	{ "Telegram",		NULL,				NULL,				1 << 7,				0,					0,					-1 },
-	{ "Emacs",			NULL,				NULL,				1 << 2,				0,					0,					-1 },
-	{ "Pavucontrol",NULL,				NULL,				1<<5,					1,					1,					-1 },
-	{ "pulsemixer",NULL,				NULL,				1<<5,					1,					1,					-1 },
-	{ "Zathura",		NULL,				NULL,				1 << 1,				0,					0,					-1 },
-	{	"firefox",				NULL,		"Daily Plan - Evernote - Mozilla Firefox",	1<<5,		1,		1,		-1 },
+	/* class	instance    title		TAGS  iscentrd isfloat isTerm noSwallow monitor */
+	{ "Gimp",		NULL,	NULL,		0,			0,		1,		0,	0	-1 },
+	{ "St",			NULL,   NULL, 	    0,          0,      0,      1,  0,  -1 },
+	{ NULL,			NULL,	"neomutt",	1<<2,		0,		0,		0,	0	-1 },
+	{ "ncmpcpp",	NULL,	NULL,		0,			1,		1,		0,	0	-1 },
+	{ "firefox",	NULL,	NULL,		1 << 8,		0,		0,		0,	0	-1 },
+	{ "ViberPC",	NULL,	NULL,		1 << 7,		0,		0,		0,	0	-1 },
+	{ "Notion",		NULL,	NULL,		1 << 3,		0,		0,		0,	0	-1 },
+	{ "discord",	NULL,	NULL,		1 << 7,		0,		0,		0,	0	-1 },
+	{ "slack",		NULL,	NULL,		1 << 7,		0,		0,		0,	0	-1 },
+	{ "zoom",		NULL,	NULL,		1 << 4,		0,		0,		0,	0	-1 },
+	{ "Telegram",	NULL,	NULL,		1 << 7,		0,		0,		0,	0	-1 },
+	{ "Emacs",		NULL,	NULL,		1 << 2,		0,		0,		0,	0	-1 },
+	{ "Pavucontrol",NULL,	NULL,		1<<5,		1,		1,		0,	0	-1 },
+	{ "pulsemixer",	NULL,	NULL,		1<<5,		1,		1,		0,	0	-1 },
+	{ "Zathura",	NULL,	NULL,		1 << 1,		0,		0,		0,	0	-1 }
 };
 
 /* layout(s) */
