@@ -5,11 +5,17 @@
 
 /* shift view taken from luke smith's build */
 /* #include "shiftview.c" */
+#include "vanitygaps.c"
 
 
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
+static const unsigned int gappih    = 10;       /* horiz inner gap between windows */
+static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
+static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
+static const unsigned int gappov    = 10;       /* vert outer gap between windows and screen edge */
+static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 4;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
@@ -192,7 +198,7 @@ static Key keys[] = {
 /* refer this for keysyms */
 /* "https://www.cl.cam.ac.uk/~mgk25/ucs/keysymdef.h" */
 
-	{ MODKEY,                       XK_f,      spawn,      {.v = searchwindow} },
+	{ MODKEY,                       XK_slash,      spawn,      {.v = searchwindow} },
 
 	{ MODKEY,     XK_apostrophe,		spawn,         SHCMD("/home/bibek/.local/bin/pick-emoji") },
 
@@ -279,6 +285,18 @@ static Key keys[] = {
 	/* floating window resize with aspect preserved */
  	{ MODKEY|ShiftMask,             XK_j,      aspectresize,   {.i = +24} },
  	{ MODKEY|ShiftMask,             XK_k,      aspectresize,   {.i = -24} },
+
+	/* vanity gaps */
+	{ MODKEY|ALTKEY,              XK_h,      incrgaps,       {.i = +2 } },
+	{ MODKEY|ALTKEY,              XK_l,      incrgaps,       {.i = -2 } },
+	{ MODKEY|ALTKEY|ControlMask,  XK_h,      incrigaps,      {.i = +2 } },
+	{ MODKEY|ALTKEY|ControlMask,  XK_l,      incrigaps,      {.i = -2 } },
+	{ MODKEY|ALTKEY,              XK_0,      togglegaps,     {0} },
+	{ MODKEY|ALTKEY|ShiftMask,    XK_0,      defaultgaps,    {0} },
+	{ MODKEY|ALTKEY,              XK_y,      incrohgaps,     {.i = +1 } },
+	{ MODKEY|ALTKEY,              XK_o,      incrohgaps,     {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_y,      incrovgaps,     {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_o,      incrovgaps,     {.i = -1 } },
 };
 
 /* button definitions */
