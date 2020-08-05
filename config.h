@@ -133,7 +133,7 @@ static const char *firefox[]		= { "firefox", NULL };
 static const char *termcmd[]		= { "st", NULL, NULL };
 
 static const char scratchpadname[] = "scratchpad";
-static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
+static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "60x15", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -263,6 +263,22 @@ static Key keys[] = {
 	{ 0,						 XF86XK_Start,		spawn, {.v = dmenucmd} },
 
 	{ALTKEY+ControlMask,	XK_space,	spawn,		SHCMD("/home/bibek/.local/bin/layout-keyboard") },
+
+	/* Move floating windows in 9 standard positions  */
+	/* These are keypads with numlock off */
+ 	{ MODKEY, 			XK_KP_End,    movetoedge,       {.v = "-1 1" } },
+ 	{ MODKEY, 			XK_KP_Down,   movetoedge,       {.v = "0 1" } },
+ 	{ MODKEY, 			XK_KP_Next,   movetoedge,       {.v = "1 1" } },
+ 	{ MODKEY, 			XK_KP_Left,   movetoedge,       {.v = "-1 0" } },
+ 	{ MODKEY, 			XK_KP_Begin,  movetoedge,       {.v = "0 0" } },
+ 	{ MODKEY, 			XK_KP_Right,  movetoedge,       {.v = "1 0" } },
+ 	{ MODKEY, 			XK_KP_Home,   movetoedge,       {.v = "-1 -1" } },
+ 	{ MODKEY, 			XK_KP_Up,     movetoedge,       {.v = "0 -1" } },
+ 	{ MODKEY, 			XK_KP_Prior,  movetoedge,       {.v = "1 -1" } },
+
+	/* floating window resize with aspect preserved */
+ 	{ MODKEY|ShiftMask,             XK_j,      aspectresize,   {.i = +24} },
+ 	{ MODKEY|ShiftMask,             XK_k,      aspectresize,   {.i = -24} },
 };
 
 /* button definitions */
