@@ -1428,7 +1428,8 @@ movetoedge(const Arg *arg) {
 	/* only floating windows can be moved */
 	Client *c;
 	c = selmon->sel;
-	int x, y, nx, ny;
+	int x, y, nx, ny, ebh; /* effective bar height ebh */
+	ebh = selmon->showbar ? bh : 0;
 
 	if (!c || !arg)
 		return;
@@ -1447,9 +1448,9 @@ movetoedge(const Arg *arg) {
 		nx = c->x;
 
 	if(y == 0)
-		ny = (selmon->mh - (c->h + bh))/2;
+		ny = (selmon->mh - (c->h + ebh))/2;
 	else if(y == -1)
-		ny = bh + borderpx;
+		ny = ebh + borderpx;
 	else if(y == 1)
 		ny = selmon->mh - (c->h + 2 * borderpx);
 	else 
