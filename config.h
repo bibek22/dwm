@@ -21,26 +21,41 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 /* static const char *fonts[]          = { "Overpass Nerd Font:size=14" }; */
 /* static const char *fonts[]          = { "OpenDyslexic Nerd Font Mono:size=12" }; */
 static const char *fonts[]          = { "ShureTechMono Nerd Font:size=15:antialias=true" };
+static const char dmenufont[]       = "Ubuntu:size=12";
 
-/* static const char dmenufont[]       = "Ubuntu:size=12"; */
-static const char col_gray1[]       = "#222222";
+/* static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray5[]       = "#dadada";
 static const char col_gray6[]       = "#dfdfdf";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
+
+static const char *colors[][3]      = {
+	               fg         bg         border 
+	[SchemeNorm] = { col_gray5, col_purple, col_gray2 },
+	[SchemeSel]  = { col_gray6, col_purple_dark,  col_purplebright },
+};
+
 static const char col_purple[]      = "#7c6180";
 static const char col_purplebright[]= "#be29c2";
 static const char col_bluishpurple[] = "#956fd6";
 static const char col_purple_dark[] = "#493f4a";
 static const char col_green_dark[]  = "#005577";
 static const char col_green[]       = "#005577";
-static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray5, col_purple, col_gray2 },
-	[SchemeSel]  = { col_gray6, col_purple_dark,  col_purplebright },
-};
+ */
+
+static char normbgcolor[]           = "#7c6180";
+static char normbordercolor[]       = "#444444";
+static char normfgcolor[]           = "#bbbbbb";
+static char selfgcolor[]            = "#dfdfdf";
+static char selbordercolor[]        = "#be29c2";
+static char selbgcolor[]            = "#493f4a";
+static char *colors[][3] = {
+       /*               fg           bg           border   */
+       [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
+       [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
+ };
 
 /* tagging */
 static const char *tags[] = { "", "", "", "", "", "", "", "", "" };
@@ -54,7 +69,6 @@ static const Rule rules[] = {
 	/* class	instance    title		TAGS  iscentrd isfloat isTerm noSwallow monitor */
 	{ "Gimp",		NULL,	NULL,		0,			0,		1,		0,	0	-1 },
 	{ "St",			NULL,   NULL, 	    0,          0,      0,      1,  0,  -1 },
-	{ NULL,			NULL,	"neomutt",	1<<2,		0,		0,		0,	0	-1 },
 	{ "ncmpcpp",	NULL,	NULL,		0,			1,		1,		0,	0	-1 },
 	{ "firefox",	NULL,	NULL,		1 << 8,		0,		0,		0,	0	-1 },
 	{ "ViberPC",	NULL,	NULL,		1 << 7,		0,		0,		0,	0	-1 },
@@ -67,6 +81,8 @@ static const Rule rules[] = {
 	{ "Pavucontrol",NULL,	NULL,		1<<5,		1,		1,		0,	0	-1 },
 	{ "pulsemixer",	NULL,	NULL,		1<<5,		1,		1,		0,	0	-1 },
 	{ "Zathura",	NULL,	NULL,		1 << 1,		0,		0,		0,	0	-1 }
+	{ NULL,			NULL,"Event Tester",0,          0,      0,      1,  0,  -1 },
+	{ NULL,			NULL,	"neomutt",	1<<2,		0,		0,		0,	0	-1 },
 };
 
 /* layout(s) */
@@ -85,6 +101,7 @@ static const Layout layouts[] = {
 	{ "TTT",      bstack },
 	{ "===",      bstackhoriz },
 };
+
 /* key definitions */
 #define MODKEY Mod4Mask
 #define ALTKEY Mod1Mask
@@ -105,7 +122,8 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 
-static const char *dmenucmd[]		= { "rofi", "-show", "run", NULL };
+static const char *roficmd[]		= { "rofi", "-show", "run", NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
 static const char *searchwindow[]	= { "rofi", "-show", "window", NULL };
 static const char *emacs[]			= { "emacs" , NULL};
 static const char *files[]			= { "pcmanfm" , NULL};
@@ -141,7 +159,7 @@ static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "60x15"
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_p,      spawn,          {.v = roficmd } },
 	{ MODKEY|ShiftMask,             XK_p,      spawn, SHCMD("/usr/local/bin/omnidoer Killall") },
 	/* { MODKEY|ShiftMask,            XK_Return, spawn,          {.v = termcmd } }, */
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
@@ -176,6 +194,7 @@ static Key keys[] = {
 	/* { MODKEY|ShiftMask,             XK_period,		tagmon,         {.i = +1 } }, */
 
 	{ MODKEY,                       XK_n,			togglealttag,   {0} },
+	{ MODKEY,                       XK_F5,     xrdb,           {.v = NULL } },
 
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
@@ -264,7 +283,7 @@ static Key keys[] = {
 	{ALTKEY,		XK_Print,	spawn,		SHCMD("/home/bibek/.local/bin/screenshot path") },
 
 	{ 0,						 XF86XK_Mail,		spawn, {.v =  mutt} },
-	{ 0,						 XF86XK_Start,		spawn, {.v = dmenucmd} },
+	{ 0,						 XF86XK_Start,		spawn, {.v = roficmd} },
 
 	{ALTKEY+ControlMask,	XK_space,	spawn,		SHCMD("/home/bibek/.local/bin/layout-keyboard") },
 
@@ -285,8 +304,8 @@ static Key keys[] = {
  	{ MODKEY|ShiftMask,             XK_k,      aspectresize,   {.i = -24} },
 
 	/* vanity gaps */
-	{ MODKEY|ALTKEY,              XK_h,      incrgaps,       {.i = +2 } },
-	{ MODKEY|ALTKEY,              XK_l,      incrgaps,       {.i = -2 } },
+	{ MODKEY|ALTKEY,              XK_h,      incrgaps,       {.i = +6 } },
+	{ MODKEY|ALTKEY,              XK_l,      incrgaps,       {.i = -6 } },
 	{ MODKEY|ALTKEY,              XK_0,      togglegaps,     {0} },
 	{ MODKEY|ALTKEY|ShiftMask,    XK_0,      defaultgaps,    {0} },
 };
