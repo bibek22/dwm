@@ -15,7 +15,7 @@ static const int smartgaps          = 0;        /* 1 means no outer gap when the
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 4;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
-static const int showsystray        = 1;     /* 0 means no systray */
+static const int showsystray        = 0;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 /* static const char *fonts[]          = { "Overpass Nerd Font:size=14" }; */
@@ -66,23 +66,24 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class    instance title  TAGS  iscentrd isfloat isTerm noSwallow monitor */
-	{ "Gimp",	NULL,	NULL,	0,	    0,	1,	0,0,    -1 },
-	{ "St",		NULL,   NULL,   0,      0,  0,  1,0,    -1 },
-	{ "ncmpcpp",NULL,	NULL,	0,	    1,	1,	0,0,    -1 },
-	{ "firefox",NULL,	NULL,	1 << 8,	0,	0,	0,0,    -1 },
-	{ "ViberPC",NULL,	NULL,	1 << 7,	0,	0,	0,0,    -1 },
-	{ "Notion",	NULL,	NULL,	1 << 3,	0,	0,	0,0,    -1 },
-	{ "discord",NULL,	NULL,	1 << 7,	0,	0,	0,0,    -1 },
-	{ "slack",	NULL,	NULL,	1 << 7,	0,	0,	0,0,    -1 },
-	{ "zoom",	NULL,	NULL,	1 << 4,	0,	0,	0,0,    -1 },
-	{ "Telegram",NULL,	NULL,	1 << 7,	0,	0,	0,0,    -1 },
-	{ "Emacs",	NULL,	NULL,	1 << 2,	0,	0,	0,0,    -1 },
-	{ "Pavucontrol",NULL,NULL,	1<<5,	1,	1,	0,0,    -1 },
-	{ "pulsemixer",	NULL,NULL,	1<<5,	1,	1,	0,0,    -1 },
-    // { "Zathura",	NULL,NULL,	1 << 1,	0,	0,	0,0,    -1 },
-	{ NULL,		NULL,"Event Tester",0,  0,  0,  1,0,    -1 },
-	{ NULL,		NULL,"neomutt",	1<<2,	0,	0,	0,0,    -1 },
+    // If isTerm, `swallow` effect applies except for child with `noSwallow` set
+	/* class    instance title  TAGS  iscentrd isfloat isTerm noSwallow MON */
+	{ "Gimp",	NULL,	NULL,	0,	    0,	    1,	    0,      0,    -1 },
+	{ "St",		NULL,   NULL,   0,      0,      0,      1,      0,    -1 },
+	{ "ncmpcpp",NULL,	NULL,	0,	    1,	    1,	    0,      0,    -1 },
+	{ "firefox",NULL,	NULL,	1 << 8,	0,	    0,	    0,      0,    -1 },
+	{ "ViberPC",NULL,	NULL,	1 << 7,	0,	    0,	    0,      0,    -1 },
+	{ "Notion",	NULL,	NULL,	1 << 3,	0,	    0,	    0,      0,    -1 },
+	{ "discord",NULL,	NULL,	1 << 7,	0,	    0,	    0,      0,    -1 },
+	{ "slack",	NULL,	NULL,	1 << 7,	0,	    0,	    0,      0,    -1 },
+	{ "zoom",	NULL,	NULL,	1 << 4,	0,	    0,	    0,      0,    -1 },
+	{ "Telegram",NULL,	NULL,	1 << 7,	0,	    0,	    0,      0,    -1 },
+	{ "Emacs",	NULL,	NULL,	1 << 2,	0,	    0,	    0,      0,    -1 },
+	{ "Pavucontrol",NULL,NULL,	1<<5,	1,	    1,	    0,      0,    -1 },
+	{ "pulsemixer",	NULL,NULL,	1<<5,	1,	    1,	    0,      0,    -1 },
+    // { "Zathura",	NULL,NULL,	1 << 1,	0,	    0,	    0,      0,    -1 },
+	{ NULL,		NULL,"Event Tester",0,  0,      0,      1,      0,    -1 },
+	{ NULL,		NULL,"neomutt",	1<<2,	0,	    0,	    0,      0,    -1 },
 };
 
 /* layout(s) */
@@ -155,13 +156,12 @@ static const char *firefox[]		= { "firefox", NULL };
 static const char *termcmd[]		= { "st", NULL, NULL };
 
 static const char scratchpadname[] = "scratchpad";
-static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "60x15", NULL };
+static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "81x20", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = roficmd } },
 	{ MODKEY|ShiftMask,             XK_p,      spawn, SHCMD("/usr/local/bin/omnidoer Killall") },
-	/* { MODKEY|ShiftMask,            XK_Return, spawn,          {.v = termcmd } }, */
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	/* { MODKEY,                  XK_minus,  removesystrayicon,   {.i = +1} }, */
@@ -236,56 +236,55 @@ static Key keys[] = {
 
 	{ MODKEY,        XK_o,			 spawn,					{.v = omnidoer } },
 
-/* Here's a link to the keys defined in X11
- https://cgit.freedesktop.org/xorg/proto/x11proto/tree/XF86keysym.h */
+    // Here's a link to the keys defined in X11
+    // https://cgit.freedesktop.org/xorg/proto/x11proto/tree/XF86keysym.h
 
-	{ 0,             XF86XK_AudioPrev,	spawn,          {.v = mpcprev } },
-	{ 0,             XF86XK_AudioPlay,	spawn,          {.v = mpctoggle } },
-	{ 0,             XF86XK_AudioNext,	spawn,          {.v = mpcnext } },
-	{ 0,             XF86XK_AudioLowerVolume,spawn,         {.v = vdown} },
-	{ 0,             XF86XK_AudioRaiseVolume,spawn,         {.v = vup} },
+	{ 0,             XF86XK_AudioPrev,	     spawn,   {.v = mpcprev } },
+	{ 0,             XF86XK_AudioPlay,	     spawn,   {.v = mpctoggle } },
+	{ 0,             XF86XK_AudioNext,	     spawn,   {.v = mpcnext } },
+	{ 0,             XF86XK_AudioLowerVolume,spawn,   {.v = vdown} },
+	{ 0,             XF86XK_AudioRaiseVolume,spawn,   {.v = vup} },
 
-	{ MODKEY,             XK_F8,	 spawn,          {.v = mpcprev } },
-	{ MODKEY,             XK_F9,	 spawn,          {.v = mpctoggle } },
+	{ MODKEY,             XK_F8,	 spawn,           {.v = mpcprev } },
+	{ MODKEY,             XK_F9,	 spawn,           {.v = mpctoggle } },
 	{ MODKEY,             XK_F10,     spawn,          {.v = mpcnext } },
 	{ MODKEY,             XK_F11,     spawn,          {.v = vdown} },
-	{ MODKEY+ShiftMask,   XK_F11,     spawn,    SHCMD("/home/bibek/.local/bin/volumecontrol altdown") },
 	{ MODKEY,             XK_F12,     spawn,          {.v = vup} },
+    // Dedicated Volume control for earphones ie. even when speaker is default and plugged in
+	{ MODKEY+ShiftMask,   XK_F11,     spawn,    SHCMD("/home/bibek/.local/bin/volumecontrol altdown") },
 	{ MODKEY+ShiftMask,   XK_F12,     spawn,    SHCMD("/home/bibek/.local/bin/volumecontrol altup") },
+
+	{ ShiftMask+MODKEY,      XK_F10,	spawn,        {.v = seekf } },
+	{ ShiftMask+MODKEY,      XK_F8,		spawn,        {.v = seekb } },
+	{ ALTKEY+MODKEY,         XK_F11,	spawn,        {.v = mpccvdown } },
+	{ ALTKEY+MODKEY,         XK_F12,	spawn,        {.v = mpccvup } },
+	{ ShiftMask,		     XK_F10,	spawn,        {.v = seekf } },
+	{ ShiftMask,		     XK_F8,		spawn,        {.v = seekb } },
 
 	{ 0,	XF86XK_MonBrightnessDown, spawn,          {.v = bdown} },
 	{ 0,	XF86XK_MonBrightnessUp,   spawn,          {.v = bup} },
 	{ MODKEY,             XK_F3,      spawn,          {.v = bdown} },
 	{ MODKEY,             XK_F4,      spawn,          {.v = bup} },
 
-	{ MODKEY, XK_Scroll_Lock,spawn,	SHCMD("killall screenkey || screenkey -g '500x300+0+500' &") },
-	{ MODKEY, XK_Print,	spawn,	SHCMD("killall simplescreenrecorder || simplescreenrecorder --start-recording --start-hidden")},
+	{ ControlMask,             XK_F8,	    spawn,          {.v = mpcprev } },
+	{ ControlMask,             XK_F9,	    spawn,          {.v = mpctoggle } },
+	{ ControlMask,             XK_F10,	    spawn,          {.v = mpcnext } },
+	{ ControlMask,             XK_F11,	    spawn,          {.v = vdown} },
+	{ ControlMask,             XK_F12,	    spawn,          {.v = vup} },
+	{ MODKEY,		            XK_F7,		spawn,          {.v = mutemic } },
+	/* { 0,		        XF86XK_AudioMute,   spawn,          {.v = mutemic } }, */
+	{ControlMask,		        XK_Print,	spawn,		SHCMD("/home/bibek/.local/bin/screenshot junk") },
+	{ALTKEY,		            XK_Print,	spawn,		SHCMD("/home/bibek/.local/bin/screenshot path") },
 
-	{ ShiftMask+MODKEY,      XK_F10,	spawn,          {.v = seekf } },
-	{ ShiftMask+MODKEY,      XK_F8,		spawn,         {.v = seekb } },
-	{ ALTKEY+MODKEY,         XK_F11,	spawn,          {.v = mpccvdown } },
-	{ ALTKEY+MODKEY,         XK_F12,	spawn,         {.v = mpccvup } },
+	{ MODKEY,           XK_Scroll_Lock,spawn,	    SHCMD("killall screenkey || screenkey -g '200x500+40+280' &") },
+	{ MODKEY,           XK_Print,	        spawn,	
+        SHCMD("killall simplescreenrecorder || simplescreenrecorder --start-recording --start-hidden")},
+	{ 0,			    XK_Print,	        spawn,		SHCMD("/home/bibek/.local/bin/screenshot full") },
+	{ 0,		        XF86XK_AudioMute,	spawn, 		    {.v = mute } },
+	{ 0,		        XF86XK_Mail,		spawn,      {.v =  mutt} },
+	{ 0,		        XF86XK_Start,		spawn,      {.v = roficmd} },
 
-
-	{ ShiftMask,		XK_F10,		spawn,          {.v = seekf } },
-	{ ShiftMask,		XK_F8,		spawn,         {.v = seekb } },
-
-	{ ControlMask,             XK_F8,	spawn,          {.v = mpcprev } },
-	{ ControlMask,             XK_F9,	spawn,          {.v = mpctoggle } },
-	{ ControlMask,             XK_F10,	spawn,          {.v = mpcnext } },
-	{ ControlMask,             XK_F11,	spawn,          {.v = vdown} },
-	{ ControlMask,             XK_F12,	spawn,          {.v = vup} },
-	{ 0,		XF86XK_AudioMute,	spawn, 		{.v = mute } },
-	{ MODKEY,		XK_F7,		spawn, {.v = mutemic } },
-	/* { 0,		XF86XK_AudioMute,	spawn, {.v = mutemic } }, */
-	{0,			XK_Print,	spawn,		SHCMD("/home/bibek/.local/bin/screenshot full") },
-	{ControlMask,		XK_Print,	spawn,		SHCMD("/home/bibek/.local/bin/screenshot junk") },
-	{ALTKEY,		XK_Print,	spawn,		SHCMD("/home/bibek/.local/bin/screenshot path") },
-
-	{ 0,		XF86XK_Mail,		spawn, {.v =  mutt} },
-	{ 0,		XF86XK_Start,		spawn, {.v = roficmd} },
-
-	{ALTKEY+ControlMask,	XK_space,	spawn,		SHCMD("/home/bibek/.local/bin/layout-keyboard") },
+	{ALTKEY+ControlMask,	    XK_space,	spawn,		SHCMD("/home/bibek/.local/bin/layout-keyboard") },
 
 	/* Move floating windows in 9 standard positions  */
 	/* These are keypads with numlock off */
@@ -298,7 +297,6 @@ static Key keys[] = {
  	{ MODKEY, 			XK_KP_Home,   movetoedge,       {.v = "-1 -1" } },
  	{ MODKEY, 			XK_KP_Up,     movetoedge,       {.v = "0 -1" } },
  	{ MODKEY, 			XK_KP_Prior,  movetoedge,       {.v = "1 -1" } },
-
 	/* floating window resize with aspect preserved */
  	{ MODKEY|ShiftMask,             XK_j,      aspectresize,   {.i = +24} },
  	{ MODKEY|ShiftMask,             XK_k,      aspectresize,   {.i = -24} },
