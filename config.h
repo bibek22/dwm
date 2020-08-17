@@ -6,22 +6,24 @@
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
-static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
-static const unsigned int gappih    = 10;       /* horiz inner gap between windows */
-static const unsigned int gappiv    = 10;       /* vert inner gap between windows */
-static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
-static const unsigned int gappov    = 10;       /* vert outer gap between windows and screen edge */
+static const int swallowfloating    = 1;        /* 1 means swallow floating windows by default */
+static const unsigned int gappih    = 20;       /* horiz inner gap between windows */
+static const unsigned int gappiv    = 20;       /* vert inner gap between windows */
+static const unsigned int gappoh    = 20;       /* horiz outer gap between windows and screen edge */
+static const unsigned int gappov    = 20;       /* vert outer gap between windows and screen edge */
 static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
-static const unsigned int systrayspacing = 4;   /* systray spacing */
+static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static const int showsystray        = 0;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-/* static const char *fonts[]          = { "Overpass Nerd Font:size=14" }; */
-/* static const char *fonts[]          = { "OpenDyslexic Nerd Font Mono:size=12" }; */
-static const char *fonts[]          = { "ShureTechMono Nerd Font:size=15:antialias=true" };
+// Colored fonts support in dwmbar via Noto emojis
+static const char *fonts[]          = { "ShureTechMono Nerd Font:size=15:antialias=true", "Lohit Nepali:style=Regular", "Noto Color Emoji:size=15:antialias=true"};
 static const char dmenufont[]       = "Ubuntu:size=12";
+
+
+#include "vanitygaps.c"
 
 /* static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -77,11 +79,12 @@ static const Rule rules[] = {
 	{ "discord",NULL,	NULL,	1 << 7,	0,	    0,	    0,      0,    -1 },
 	{ "slack",	NULL,	NULL,	1 << 7,	0,	    0,	    0,      0,    -1 },
 	{ "zoom",	NULL,	NULL,	1 << 4,	0,	    0,	    0,      0,    -1 },
-	{ "Telegram",NULL,	NULL,	1 << 7,	0,	    0,	    0,      0,    -1 },
+{ "TelegramDesktop",NULL,NULL,	1 << 7,	0,	    0,	    1,      0,    -1 },
+{ "TelegramDesktop",NULL,"Media viewer",	1 << 7,	1,	    0,	    0,      0,    -1 }, // this trickery to swallow
 	{ "Emacs",	NULL,	NULL,	1 << 2,	0,	    0,	    0,      0,    -1 },
 	{ "Pavucontrol",NULL,NULL,	1<<5,	1,	    1,	    0,      0,    -1 },
 	{ "pulsemixer",	NULL,NULL,	1<<5,	1,	    1,	    0,      0,    -1 },
-    // { "Zathura",	NULL,NULL,	1 << 1,	0,	    0,	    0,      0,    -1 },
+    { "Zathura",	NULL,NULL,	1 << 1,	0,	    0,	    0,      0,    -1 },
 	{ NULL,		NULL,"Event Tester",0,  0,      0,      1,      0,    -1 },
 	{ NULL,		NULL,"neomutt",	1<<2,	0,	    0,	    0,      0,    -1 },
 };
@@ -92,7 +95,6 @@ static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 static const int attachbelow = 1;    /* 1 means attach after the currently active window */
 
-#include "vanitygaps.c"
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -216,7 +218,7 @@ static Key keys[] = {
 /* "https://www.cl.cam.ac.uk/~mgk25/ucs/keysymdef.h" */
 
 	{ MODKEY,                       XK_slash,      spawn,      {.v = searchwindow} },
-	{ MODKEY|ShiftMask,             XK_slash,      spawn, SHCMD("/home/bibek/.local/bin/dict-search") },
+	{ ALTKEY,             XK_slash,      spawn, SHCMD("/home/bibek/.local/bin/lookup") },
 
 	{ MODKEY,     XK_apostrophe,		spawn,         SHCMD("/home/bibek/.local/bin/pick-emoji") },
 
