@@ -1568,7 +1568,7 @@ movetoedge(const Arg *arg) {
 		nx = c->x;
 
 	if(y == 0)
-		ny = (selmon->mh - (c->h + ebh))/2;
+		ny = (selmon->mh - (c->h - ebh))/2;
 	else if(y == -1)
 		ny = ebh + borderpx;
 	else if(y == 1)
