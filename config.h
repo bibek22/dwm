@@ -69,24 +69,26 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
     // If isTerm, `swallow` effect applies except for child with `noSwallow` set
-	/* class    instance title  TAGS  iscentrd isfloat isTerm noSwallow MON */
-	{ "Gimp",             NULL,  NULL,            0,       0,  1,  0,  0,  -1 },
-	{ "St",               NULL,  NULL,            0,       0,  0,  1,  0,  -1 },
-	{ "ncmpcpp",          NULL,  NULL,            0,       1,  1,  0,  0,  -1 },
-	{ "firefox",          NULL,  NULL,            1 << 8,  0,  0,  0,  0,  -1 },
-	{ "ViberPC",          NULL,  NULL,            1 << 7,  0,  0,  0,  0,  -1 },
-	{ "Notion",           NULL,  NULL,            1 << 3,  0,  0,  0,  0,  -1 },
-	{ "discord",          NULL,  NULL,            1 << 7,  0,  0,  0,  0,  -1 },
-	{ "slack",            NULL,  NULL,            1 << 7,  0,  0,  0,  0,  -1 },
-	{ "zoom",             NULL,  NULL,            1 << 4,  0,  0,  0,  0,  -1 },
-    { "TelegramDesktop",  NULL,  NULL,            1 << 7,  0,  0,  1,  0,  -1 },
-    { "TelegramDesktop",  NULL,  "Media viewer",  1 << 7,  1,  0,  0,  0,  -1 },
-	{ "Emacs",            NULL,  NULL,            1 << 2,  0,  0,  0,  0,  -1 },
-	{ "Pavucontrol",      NULL,  NULL,            1<<5,    1,  1,  0,  0,  -1 },
-	{ "pulsemixer",       NULL,  NULL,            1<<5,    1,  1,  0,  0,  -1 },
-    { "Zathura",          NULL,  NULL,            1 << 1,  0,  0,  0,  0,  -1 },
-	{ NULL,               NULL,  "Event Tester",  0,       0,  0,  1,  0,  -1 },
-	{ NULL,               NULL,  "neomutt",       1<<2,    0,  0,  0,  0,  -1 },
+    // C : Centered F: Floated T:isATerminal NS: Don't Swallow
+	/* CLASS,             INSTANCE,  TITLE,           TAGS,    CNT,  FLT,  TERM,  NS,  MON,   */
+	{ "Gimp",             NULL,      NULL,            0,       0,    1,    0,     0,   -1 },
+	{ "St",               NULL,      NULL,            0,       0,    0,    0,     0,   -1 },
+	{ "Toplevel",         "record",  NULL,            0,       0,    0,    0,     1,   -1 },
+	{ "ncmpcpp",          NULL,      NULL,            0,       1,    1,    0,     0,   -1 },
+	{ "firefox",          NULL,      NULL,            1 << 8,  0,    0,    0,     0,   -1 },
+	{ "ViberPC",          NULL,      NULL,            1 << 7,  0,    0,    0,     0,   -1 },
+	{ "Notion",           NULL,      NULL,            1 << 3,  0,    0,    0,     0,   -1 },
+	{ "discord",          NULL,      NULL,            1 << 7,  0,    0,    0,     0,   -1 },
+	{ "slack",            NULL,      NULL,            1 << 7,  0,    0,    0,     0,   -1 },
+	{ "zoom",             NULL,      NULL,            1 << 4,  0,    0,    0,     0,   -1 },
+    { "TelegramDesktop",  NULL,      NULL,            1 << 7,  0,    0,    1,     0,   -1 },
+    { "TelegramDesktop",  NULL,      "Media viewer",  1 << 7,  1,    1,    0,     0,   -1 },
+	{ "Emacs",            NULL,      NULL,            1 << 2,  0,    0,    0,     0,   -1 },
+	{ "Pavucontrol",      NULL,      NULL,            1<<5,    1,    1,    0,     0,   -1 },
+	{ "pulsemixer",       NULL,      NULL,            1<<5,    1,    1,    0,     0,   -1 },
+    { "Zathura",          NULL,      NULL,            0,       0,    0,    0,     1,   -1 },
+	{ NULL,               NULL,      "Event Tester",  0,       0,    0,    1,     0,   -1 },
+	{ NULL,               NULL,      "neomutt",       1<<2,    0,    0,    0,     0,   -1 },
 };
 
 /* layout(s) */
@@ -159,12 +161,15 @@ static const char *termcmd[]		= { "st", NULL, NULL };
 
 static const char scratchpadname[] = "scratchpad";
 static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "81x20", NULL };
+// static const char calculator[] = "calculator";
+// static const char *calcscratchpadcmd[] = { "st", "-t", calculator, "-g", "81x20", "-e", "python", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = roficmd } },
 	{ MODKEY|ShiftMask,             XK_p,      spawn, SHCMD("/usr/local/bin/omnidoer Killall") },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
+	// { MODKEY,                       XK_Down,   togglescratch,  {.v = calcscratchpadcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	/* { MODKEY,                  XK_minus,  removesystrayicon,   {.i = +1} }, */
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
