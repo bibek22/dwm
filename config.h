@@ -4,7 +4,7 @@
 #include <X11/XF86keysym.h>
 
 /* appearance */
-static const unsigned int borderpx  = 3;        /* border pixel of windows */
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int swallowfloating    = 1;        /* 1 means swallow floating windows by default */
 static const unsigned int gappih    = 20;       /* horiz inner gap between windows */
@@ -19,33 +19,12 @@ static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 // Colored fonts support in dwmbar via Noto emojis
-static const char *fonts[]          = { "ShureTechMono Nerd Font:size=12:antialias=true", "Lohit Nepali:style=Regular", "Noto Color Emoji:size=15:antialias=true"};
+static const char *fonts[]          = { "ShureTechMono Nerd Font:size=13:antialias=true", "Lohit Nepali:style=Regular", "Noto Color Emoji:size=15:antialias=true"};
 static const char dmenufont[]       = "Ubuntu:size=12";
 
 
 #include "vanitygaps.c"
 
-/* static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray5[]       = "#dadada";
-static const char col_gray6[]       = "#dfdfdf";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
-
-static const char *colors[][3]      = {
-	               fg         bg         border 
-	[SchemeNorm] = { col_gray5, col_purple, col_gray2 },
-	[SchemeSel]  = { col_gray6, col_purple_dark,  col_purplebright },
-};
-
-static const char col_purple[]      = "#7c6180";
-static const char col_purplebright[]= "#be29c2";
-static const char col_bluishpurple[] = "#956fd6";
-static const char col_purple_dark[] = "#493f4a";
-static const char col_green_dark[]  = "#005577";
-static const char col_green[]       = "#005577";
- */
 
 static char normbgcolor[]           = "#7c6180";
 static char normbordercolor[]       = "#444444";
@@ -182,7 +161,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,						XK_w,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	/* { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} }, */
+    // { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,						XK_y,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY|ShiftMask,             XK_y,      setlayout,      {.v = &layouts[4]} },
@@ -294,8 +273,7 @@ static Key keys[] = {
 	{ALTKEY+ControlMask,	    XK_space,	spawn,		SHCMD("/home/bibek/.local/bin/layout-keyboard") },
 
 	/* Move floating windows in 9 standard positions  */
-	/* These are keypads with numlock off */
- 	{ MODKEY|ALTKEY, 			XK_KP_End,    movetoedge,       {.v = "-1 1" } },
+	/* These are keypads keys */
  	{ MODKEY|ALTKEY, 			XK_KP_End,    movetoedge,       {.v = "-1 1" } },
  	{ MODKEY|ALTKEY, 			XK_KP_Down,   movetoedge,       {.v = "0 1" } },
  	{ MODKEY|ALTKEY, 			XK_KP_Next,   movetoedge,       {.v = "1 1" } },
@@ -305,15 +283,6 @@ static Key keys[] = {
  	{ MODKEY|ALTKEY, 			XK_KP_Home,   movetoedge,       {.v = "-1 -1" } },
  	{ MODKEY|ALTKEY, 			XK_KP_Up,     movetoedge,       {.v = "0 -1" } },
  	{ MODKEY|ALTKEY, 			XK_KP_Prior,  movetoedge,       {.v = "1 -1" } },
-
- 	{ MODKEY, 			XK_KP_Down,   movetoedge,       {.v = "0 1" } },
- 	{ MODKEY, 			XK_KP_Next,   movetoedge,       {.v = "1 1" } },
- 	{ MODKEY, 			XK_KP_Left,   movetoedge,       {.v = "-1 0" } },
- 	{ MODKEY, 			XK_KP_Begin,  movetoedge,       {.v = "0 0" } },
- 	{ MODKEY, 			XK_KP_Right,  movetoedge,       {.v = "1 0" } },
- 	{ MODKEY, 			XK_KP_Home,   movetoedge,       {.v = "-1 -1" } },
- 	{ MODKEY, 			XK_KP_Up,     movetoedge,       {.v = "0 -1" } },
- 	{ MODKEY, 			XK_KP_Prior,  movetoedge,       {.v = "1 -1" } },
 
 	/* floating window resize with aspect preserved */
 	{ MODKEY|ALTKEY,              XK_j,      aspectresize,   {.i = +24} },
@@ -327,6 +296,29 @@ static Key keys[] = {
 
 	/* wallpaper */
 	{ MODKEY|ALTKEY,              XK_w,      spawn, SHCMD("omnidoer Change wallpaper") },
+
+    // Cursor with key combo
+ 	{ MODKEY|ALTKEY, 			XK_KP_End,    movetoedge,       {.v = "-1 1" } },
+ 	{ MODKEY|ALTKEY, 			XK_KP_Down,   movetoedge,       {.v = "0 1" } },
+ 	{ MODKEY|ALTKEY, 			XK_KP_Next,   movetoedge,       {.v = "1 1" } },
+ 	{ MODKEY|ALTKEY, 			XK_KP_Left,   movetoedge,       {.v = "-1 0" } },
+ 	{ MODKEY|ALTKEY, 			XK_KP_Begin,  movetoedge,       {.v = "0 0" } },
+ 	{ MODKEY|ALTKEY, 			XK_KP_Right,  movetoedge,       {.v = "1 0" } },
+ 	{ MODKEY|ALTKEY, 			XK_KP_Home,   movetoedge,       {.v = "-1 -1" } },
+ 	{ MODKEY|ALTKEY, 			XK_KP_Up,     movetoedge,       {.v = "0 -1" } },
+ 	{ MODKEY|ALTKEY, 			XK_KP_Prior,  movetoedge,       {.v = "1 -1" } },
+
+
+	// {ALTKEY,		            XK_Print,	spawn,		SHCMD("/home/bibek/.local/bin/screenshot path") },
+ 	{ MODKEY|ALTKEY|ControlMask,  XK_KP_End,    spawn,       SHCMD("xdotool mousemove_relative -- -50 28")},
+ 	{ MODKEY|ALTKEY|ControlMask,  XK_KP_Down,   spawn,       SHCMD("xdotool mousemove_relative -- 0 28")},
+ 	{ MODKEY|ALTKEY|ControlMask,  XK_KP_Next,   spawn,       SHCMD("xdotool mousemove_relative -- 50 28")},
+ 	{ MODKEY|ALTKEY|ControlMask,  XK_KP_Left,   spawn,       SHCMD("xdotool mousemove_relative -- -50 0")},
+ 	{ MODKEY|ALTKEY|ControlMask,  XK_KP_Begin,  spawn,       SHCMD("xdotool click 1")},
+ 	{ MODKEY|ALTKEY|ControlMask,  XK_KP_Right,  spawn,       SHCMD("xdotool mousemove_relative -- 50 0")},
+ 	{ MODKEY|ALTKEY|ControlMask,  XK_KP_Home,   spawn,       SHCMD("xdotool mousemove_relative -- -50 -28")},
+ 	{ MODKEY|ALTKEY|ControlMask,  XK_KP_Up,     spawn,       SHCMD("xdotool mousemove_relative -- 0 -28")},
+ 	{ MODKEY|ALTKEY|ControlMask,  XK_KP_Prior,  spawn,       SHCMD("xdotool mousemove_relative -- 50 -28")}
 };
 
 /* button definitions */
