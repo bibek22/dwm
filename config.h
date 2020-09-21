@@ -39,8 +39,9 @@ static char *colors[][3] = {
  };
 
 /* tagging */
-static const char *tags[] = { "", "", "", "", "", "", "", "", "" };
-static const char *tagsalt[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "", "", "", "", "", "", "", "", "" };
+static const char *tagsalt[] = { "१", "२", "३", "४", "५", "६", "७", "८", "९" };
+// static const char *tagsalt[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -62,6 +63,7 @@ static const Rule rules[] = {
 	{ "zoom",             NULL,      NULL,            1 << 4,  0,    0,    0,     0,   -1 },
     { "TelegramDesktop",  NULL,      NULL,            1 << 7,  0,    0,    1,     0,   -1 },
     { "TelegramDesktop",  NULL,      "Media viewer",  1 << 7,  1,    1,    0,     0,   -1 },
+    { "Signal",           NULL,      NULL,            1 << 7,  0,    0,    1,     0,   -1 },
 	{ "Emacs",            NULL,      NULL,            1 << 2,  0,    0,    0,     0,   -1 },
 	{ "Pavucontrol",      NULL,      NULL,            1<<5,    1,    1,    0,     0,   -1 },
 	{ "pulsemixer",       NULL,      NULL,            1<<5,    1,    1,    0,     0,   -1 },
