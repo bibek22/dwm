@@ -181,7 +181,8 @@ static Key keys[] = {
 	/* { MODKEY|ShiftMask,             XK_comma,		tagmon,         {.i = -1 } }, */
 	/* { MODKEY|ShiftMask,             XK_period,		tagmon,         {.i = +1 } }, */
 
-	{ MODKEY,                       XK_n,			togglealttag,   {0} },
+	{ MODKEY|ShiftMask,             XK_n,	   togglealttag,   {0} },
+	{ MODKEY,                       XK_n,      spawn,          SHCMD("/home/bibek/.local/bin/switch_monitor_focus.sh") },
 	{ MODKEY,                       XK_F5,     xrdb,           {.v = NULL } },
 
 	TAGKEYS(                        XK_1,                      0)
