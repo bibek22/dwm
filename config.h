@@ -4,7 +4,7 @@
 #include <X11/XF86keysym.h>
 
 /* appearance */
-static const unsigned int borderpx  = 3;        /* border pixel of windows */
+static const unsigned int borderpx  = 4;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int swallowfloating    = 1;        /* 1 means swallow floating windows by default */
 static const unsigned int gappih    = 20;       /* horiz inner gap between windows */
@@ -19,7 +19,7 @@ static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 // Colored fonts support in dwmbar via Noto emojis
-static const char *fonts[]          = { "ShureTechMono Nerd Font:size=13:antialias=true", "Lohit Nepali:style=Regular", "Noto Color Emoji:size=15:antialias=true"};
+static const char *fonts[]          = { "ShureTechMono Nerd Font:size=18:antialias=true", "Lohit Nepali:style=Regular:size=18", "Noto Color Emoji:size=15:antialias=true"};
 static const char dmenufont[]       = "Ubuntu:size=12";
 
 
