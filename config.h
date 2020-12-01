@@ -67,6 +67,7 @@ static const Rule rules[] = {
 	{ "Emacs",            NULL,      NULL,            1 << 2,  0,    0,    0,     0,   -1 },
 	{ "Pavucontrol",      NULL,      NULL,            1<<5,    1,    1,    0,     0,   -1 },
 	{ "pulsemixer",       NULL,      NULL,            1<<5,    1,    1,    0,     0,   -1 },
+	{ "brightness",       NULL,      NULL,            1<<5,    1,    1,    0,     0,   -1 },
     { "Zathura",          NULL,      NULL,            0,       0,    0,    0,     1,   -1 },
 	{ NULL,               NULL,      "Event Tester",  0,       0,    0,    1,     0,   -1 },
 	{ NULL,               NULL,      "neomutt",       1<<2,    0,    0,    0,     0,   -1 },
@@ -128,6 +129,7 @@ static const char *vdown[]			= { "/home/bibek/.local/bin/volumecontrol", "down",
 static const char *mute[]			= { "/home/bibek/.local/bin/mute", NULL};
 static const char *mutemic[]		= { "/home/bibek/.local/bin/mute", "mic", NULL};
 static const char *pavucontrol[]	= { "/home/bibek/.local/bin/runonce", "pulsemixer", "pulsemixer", NULL};
+static const char *brightness_mon[]	= { "brightness" };
 /* brightness */ /*  scale by  */
 static const char *bup[]			= { "light", "-T", "1.5", NULL};
 static const char *bdown[]			= {  "light", "-T", "0.66", NULL};
@@ -222,6 +224,7 @@ static Key keys[] = {
 					/*		KEY													CMD								TAG */
 	CAFOCUS(				XK_m,                      mutt,								2)
 	CAFOCUS(				XK_p,                      pavucontrol,					5)
+	CAFOCUS(				XK_b,                      brightness_mon,					5)
 
 	{ MODKEY,        XK_o,			 spawn,					{.v = omnidoer } },
 
