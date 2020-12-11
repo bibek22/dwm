@@ -19,7 +19,7 @@ static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 // Colored fonts support in dwmbar via Noto emojis
-static const char *fonts[]          = { "ShureTechMono Nerd Font:size=18:antialias=true", "Lohit Nepali:style=Regular:size=18", "Noto Color Emoji:size=15:antialias=true"};
+static const char *fonts[]          = { "ShureTechMono Nerd Font:size=13:antialias=true", "Lohit Nepali:style=Regular:size=18", "Noto Color Emoji:size=15:antialias=true"};
 static const char dmenufont[]       = "Ubuntu:size=12";
 
 
