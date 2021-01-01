@@ -112,11 +112,8 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *roficmd[]		= { "rofi", "-show", "run", NULL };
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
 static const char *searchwindow[]	= { "rofi", "-show", "window", NULL };
-static const char *emacs[]			= { "emacs" , NULL};
-static const char *files[]			= { "pcmanfm" , NULL};
 static const char *mutt[]			= { "/home/bibek/.local/bin/runonce", "neomutt", "neomutt", NULL};
 /* music */
-static const char *music[]			= { "st", "-f", "ShureTechMono Nerd Font:pixelsize=20", "-c", "ncmpcpp", "-e", "ncmpcpp", NULL};
 static const char *mpctoggle[]		= { "mpcc", "toggle", NULL};
 static const char *mpcnext[]		= { "mpcc", "next", NULL};
 static const char *mpccvup[]		= { "mpcc", "vup", NULL};
@@ -134,12 +131,7 @@ static const char *brightness_mon[]	= { "brightness" };
 static const char *bup[]			= { "light", "-T", "1.5", NULL};
 static const char *bdown[]			= {  "light", "-T", "0.66", NULL};
 /* utils  */
-static const char *jupyter[]		= { "/home/bibek/.local/bin/jupyterlauncher", NULL };
-static const char *omnidoer[]		= { "/home/bibek/.local/bin/omnidoer", NULL };
-static const char *omnilauncher[]	= { "/home/bibek/.local/bin/omnilauncher", NULL };
 
-static const char *slock[]			= { "slock", NULL };
-static const char *firefox[]		= { "firefox", NULL };
 static const char *termcmd[]		= { "st", NULL, NULL };
 
 static const char scratchpadname[] = "scratchpad";
@@ -212,13 +204,6 @@ static Key keys[] = {
 	{ MODKEY,     XK_apostrophe,		spawn,         SHCMD("/home/bibek/.local/bin/pick-emoji") },
 
 	{ MODKEY,     XK_semicolon,				spawn,         {.v = termcmd } },
-	CAKEYS(				XK_g,                      firefox)
-	CAKEYS(				XK_l,                      slock)
-	CAKEYS(				XK_f,                      files)
-	CAKEYS(				XK_e,                      emacs)
-	CAKEYS(				XK_k,                      music)
-	CAKEYS(				XK_j,                      jupyter)
-	CAKEYS(				XK_o,                      omnilauncher)
 
 	/* Run a command and get focus to a window */
 					/*		KEY													CMD								TAG */
@@ -226,7 +211,6 @@ static Key keys[] = {
 	CAFOCUS(				XK_p,                      pavucontrol,					5)
 	CAFOCUS(				XK_b,                      brightness_mon,					5)
 
-	{ MODKEY,        XK_o,			 spawn,					{.v = omnidoer } },
 
     // Here's a link to the keys defined in X11
     // https://cgit.freedesktop.org/xorg/proto/x11proto/tree/XF86keysym.h
