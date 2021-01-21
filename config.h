@@ -206,9 +206,9 @@ static Key keys[] = {
 	{ MODKEY,     XK_semicolon,				spawn,         {.v = termcmd } },
 
 	/* Run a command and get focus to a window */
-					/*		KEY													CMD								TAG */
-	CAFOCUS(				XK_m,                      mutt,								2)
-	CAFOCUS(				XK_p,                      pavucontrol,					5)
+					/*		KEY							CMD								TAG */
+	CAFOCUS(				XK_m,                      mutt,							2)
+	CAFOCUS(				XK_p,                      pavucontrol,					    5)
 	CAFOCUS(				XK_b,                      brightness_mon,					5)
 
 
