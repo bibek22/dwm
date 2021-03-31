@@ -221,6 +221,9 @@ static Key keys[] = {
 	{ 0,             XF86XK_AudioLowerVolume,spawn,   {.v = vdown} },
 	{ 0,             XF86XK_AudioRaiseVolume,spawn,   {.v = vup} },
 
+	{ 0,             XF86XK_Forward,	     spawn,   {.v = mpcnext } },
+	{ 0,             XF86XK_Back,	         spawn,   {.v = mpcprev } },
+
 	{ MODKEY,             XK_F8,	 spawn,           {.v = mpcprev } },
 	{ MODKEY,             XK_F9,	 spawn,           {.v = mpctoggle } },
 	{ MODKEY,             XK_F10,     spawn,          {.v = mpcnext } },
